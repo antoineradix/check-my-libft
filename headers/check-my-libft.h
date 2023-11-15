@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 12:46:00 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/15 13:57:12 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/15 14:24:56 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@
 # define RED "\x1B[31m"
 # define GREEN "\x1B[32m"
 
-void	test_ft_isalpha(void);
+void	test_ft_is(int (*implem)(int), int (*original)(int));
 
 #endif

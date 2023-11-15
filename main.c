@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 12:33:29 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/15 13:57:19 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/15 14:31:18 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 
 int	main(void)
 {
-	test_ft_isalpha();
+	// PART 1
+	printf("ft_isalpha:          ");
+	test_ft_is(ft_isalpha, isalpha);
+	printf("ft_isdigit:          ");
+	test_ft_is(ft_isdigit, isdigit);
+	printf("ft_isalnum:          ");
+	test_ft_is(ft_isalnum, isalnum);
+	printf("ft_isascii:          ");
+	test_ft_is(ft_isascii, isascii);
+	printf("ft_isprint:          ");
+	test_ft_is(ft_isprint, isprint);
 	return (0);
 }
