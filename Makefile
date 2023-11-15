@@ -7,7 +7,9 @@ CC			=	gcc
 CFLAGS		=	-Wall -Wextra -Werror
 LDFLAGS		=	-L$(LIBFT_PATH) -lft
 
-SRCS_PART1	=	part1/test_ft_is.c
+SRCS_PART1	=	part1/test_ft_is.c		\
+				part1/test_ft_strlen.c	\
+				part1/test_ft_memset.c
 SRCS		=	$(SRCS_PART1)
 
 OBJS_FOLDER	=	objects

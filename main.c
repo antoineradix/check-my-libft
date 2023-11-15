@@ -6,11 +6,21 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 12:33:29 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/15 14:31:18 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/15 16:47:20 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "check-my-libft.h"
+
+volatile sig_atomic_t	segfault_occurred = 0;
+jmp_buf					jump_buffer;
+
+void	segfault_handler(int signo)
+{
+	(void)signo;
+	segfault_occurred = 1;
+	longjmp(jump_buffer, 1);
+}
 
 int	main(void)
 {
@@ -25,5 +35,9 @@ int	main(void)
 	test_ft_is(ft_isascii, isascii);
 	printf("ft_isprint:          ");
 	test_ft_is(ft_isprint, isprint);
+	printf("ft_strlen:           ");
+	test_ft_strlen();
+	printf("ft_memset:           ");
+	test_ft_memset();
 	return (0);
 }
