@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_ft_memset.c                                   :+:      :+:    :+:   */
+/*   test_ft_bzero.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/15 15:19:31 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/15 17:25:13 by aradix           ###   ########.fr       */
+/*   Created: 2023/11/15 17:10:06 by aradix            #+#    #+#             */
+/*   Updated: 2023/11/15 17:25:10 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "check-my-libft.h"
 
-void	test_ft_memset(void)
+void	test_ft_bzero(void)
 {
 	char	*str;
 	char	*expected_str;
@@ -26,28 +26,15 @@ void	test_ft_memset(void)
 		free(str);
 		return ;
 	}
-	/* TEST WITH SINGLE CHAR */
-	str = ft_memset(str, 163, 1);
-	expected_str = memset(str, 163, 1);
-	if (*str == *expected_str)
-		printf("%s [OK]", GREEN);
-	else
-		printf("%s [KO]", RED);
-	/* TEST WITH BASIC VALUE */
-	str = ft_memset(str, 'e', 10);
-	expected_str = memset(str, 'e', 10);
-	if (memcmp(str, expected_str, 10) == 0)
-		printf("%s [OK]", GREEN);
-	else
-		printf("%s [KO]", RED);
-	/* WITH NEGATIVE VALUE */
-	str = ft_memset(str, -120, 3);
-	expected_str = memset(str, -120, 3);
+	str = memset(str, 'x', 10);
+	expected_str = memset(expected_str, 'x', 10);
+	/* TEST WITH SIMPLE STRING */
+	ft_bzero(str, 5);
+	bzero(expected_str, 5);
 	if (memcmp(str, expected_str, 10) == 0)
 		printf("%s [OK]\n", GREEN);
 	else
 		printf("%s [KO]\n", RED);
-	/* free here */
+	free(str);
 	free(expected_str);
-	printf("\x1b[0m");
 }
