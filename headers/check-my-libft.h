@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 12:46:00 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/15 17:29:11 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/15 18:27:25 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 extern volatile sig_atomic_t	segfault_occurred;
 // Buffer to store the jump location for setjmp/longjmp
 extern jmp_buf					jump_buffer;
-
 // Custom signal handler for SIGSEGV
 void							segfault_handler(int signo);
 
@@ -38,5 +37,6 @@ void							test_ft_strlen(void);
 void							test_ft_memset(void);
 void							test_ft_bzero(void);
 void							test_ft_memcpy(void);
+void							test_ft_memmove(void);
 
 #endif

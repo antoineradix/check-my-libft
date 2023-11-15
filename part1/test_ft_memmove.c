@@ -1,59 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_ft_memcpy.c                                   :+:      :+:    :+:   */
+/*   test_ft_memmove.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/15 17:27:58 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/15 19:24:07 by aradix           ###   ########.fr       */
+/*   Created: 2023/11/15 18:25:36 by aradix            #+#    #+#             */
+/*   Updated: 2023/11/15 19:44:50 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "check-my-libft.h"
 
-void	test_ft_memcpy(void)
+void	test_ft_memmove(void)
 {
-	char				*src;
-	char				*dest;
-	char				*expected_dest;
-	struct sigaction	sa;
+	char				src[] = "abcde";
+	char				dest[6] = "lol";
+	char				expected_dest[6] = "lol";
 	struct sigaction	old_sa;
+	struct sigaction	sa;
 
-	dest = (char *)malloc(sizeof(char) * 25);
-	if (!dest)
-		return ;
-	expected_dest = (char *)malloc(sizeof(char) * 25);
-	if (!expected_dest)
-	{
-		free(dest);
-		return ;
-	}
-	dest = memset(dest, 'p', 25);
-	expected_dest = memset(expected_dest, 'p', 25);
-	/* BASIC STRING */
-	dest = ft_memcpy(dest, "hello", 2);
-	expected_dest = memcpy(dest, "hello", 3);
-	if (memcmp(dest, expected_dest, 25) == 0)
+	/* BASIC MOVE */
+	ft_memmove(dest, src, 5);
+	memmove(expected_dest, src, 5);
+	if (memcmp(dest, expected_dest, 6) == 0)
 		printf("%s [OK]", GREEN);
 	else
 		printf("%s [KO]", RED);
-	/* TEST MEM OVERLAPPING */
-	dest = ft_memcpy(dest, dest + 1, 5);
-	expected_dest = memcpy(expected_dest, expected_dest + 1, 5);
-	if (memcmp(dest, expected_dest, 25) == 0)
+	/* TEST OVERLAP */
+	ft_memmove(dest, dest + 1, 3);
+	memmove(expected_dest, expected_dest + 1, 3);
+	if (memcmp(dest, expected_dest, 6) == 0)
 		printf("%s [OK]", GREEN);
 	else
 		printf("%s [KO]", RED);
-	/* TEST WITH SIZE ZERO */
-	dest = ft_memcpy(dest, "", 0);
-	if (dest == NULL)
-		printf("%s [KO]", RED);
-	else
+	/* TEST OVERLAP */
+	ft_memmove(dest + 2, dest, 3);
+	memmove(expected_dest + 2, expected_dest, 3);
+	if (memcmp(dest, expected_dest, 6) == 0)
 		printf("%s [OK]", GREEN);
-	/* TEST CRASH WITH NULL */
-	dest = NULL;
-	src = NULL;
+	else
+		printf("%s [KO]", RED);
+	/* TEST SAME */
+	if (memcmp(dest, expected_dest, 6) == 0)
+		printf("%s [OK]", GREEN);
+	else
+		printf("%s [KO]", RED);
+	/* NO CRASH IF =  */
 	sigaction(SIGSEGV, NULL, &old_sa);
 	sa.sa_handler = segfault_handler;
 	sigemptyset(&sa.sa_mask);
@@ -61,15 +54,15 @@ void	test_ft_memcpy(void)
 	sigaction(SIGSEGV, &sa, NULL);
 	if (setjmp(jump_buffer) == 0)
 	{
-		ft_memcpy(NULL, NULL, 10);
-		printf("%s [KO]", RED);
+		ft_memmove(dest, dest, 50000);
+		printf("%s [OK]", GREEN);
 	}
 	else
-		printf("%s [OK]", GREEN);
+		printf("%s [KO]", RED);
 	segfault_occurred = 0;
 	sigaction(SIGSEGV, &old_sa, NULL);
 	sigprocmask(SIG_SETMASK, &old_sa.sa_mask, NULL);
-	/* TEST NO CRASH WITH NULL AND 0 */
+	/* NO CRASH WITH NULL IF 0 */
 	sigaction(SIGSEGV, NULL, &old_sa);
 	sa.sa_handler = segfault_handler;
 	sigemptyset(&sa.sa_mask);
@@ -77,7 +70,23 @@ void	test_ft_memcpy(void)
 	sigaction(SIGSEGV, &sa, NULL);
 	if (setjmp(jump_buffer) == 0)
 	{
-		ft_memcpy(dest, src, 0);
+		ft_memmove(dest, NULL, 0);
+		printf("%s [OK]", GREEN);
+	}
+	else
+		printf("%s [KO]", RED);
+	segfault_occurred = 0;
+	sigaction(SIGSEGV, &old_sa, NULL);
+	sigprocmask(SIG_SETMASK, &old_sa.sa_mask, NULL);
+	/* NO CRASH WITH NULL == NULL */
+	sigaction(SIGSEGV, NULL, &old_sa);
+	sa.sa_handler = segfault_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGSEGV, &sa, NULL);
+	if (setjmp(jump_buffer) == 0)
+	{
+		ft_memmove(NULL, NULL, 5);
 		printf("%s [OK]", GREEN);
 	}
 	else
