@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 12:46:00 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/15 18:27:25 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/15 20:04:42 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <string.h>
+#include <bsd/string.h>
 
 # define RED "\x1B[31m"
 # define GREEN "\x1B[32m"
@@ -38,5 +39,6 @@ void							test_ft_memset(void);
 void							test_ft_bzero(void);
 void							test_ft_memcpy(void);
 void							test_ft_memmove(void);
+void							test_ft_strlcpy(void);
 
 #endif
