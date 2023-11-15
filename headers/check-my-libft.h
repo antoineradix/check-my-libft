@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 12:46:00 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/15 17:10:42 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/15 17:29:11 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ void							test_ft_is(int (*implem)(int),
 void							test_ft_strlen(void);
 void							test_ft_memset(void);
 void							test_ft_bzero(void);
+void							test_ft_memcpy(void);
 
 #endif

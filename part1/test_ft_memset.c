@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:19:31 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/15 17:25:13 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/15 18:21:47 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ void	test_ft_memset(void)
 	str = ft_memset(str, -120, 3);
 	expected_str = memset(str, -120, 3);
 	if (memcmp(str, expected_str, 10) == 0)
-		printf("%s [OK]\n", GREEN);
+		printf("%s [OK]", GREEN);
 	else
-		printf("%s [KO]\n", RED);
+		printf("%s [KO]", RED);
 	/* free here */
 	free(expected_str);
-	printf("\x1b[0m");
+	printf("\x1b[0m\n");
 }

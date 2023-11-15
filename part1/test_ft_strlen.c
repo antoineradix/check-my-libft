@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 14:34:13 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/15 17:25:08 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/15 18:21:47 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ void	test_ft_strlen(void)
 	if (setjmp(jump_buffer) == 0)
 	{
 		ft_strlen(NULL);
-		printf("%s [KO]\n", RED);
+		printf("%s [KO]", RED);
 	}
 	else
-		printf("%s [OK]\n", GREEN);
+		printf("%s [OK]", GREEN);
 	segfault_occurred = 0;
 	sigaction(SIGSEGV, &old_sa, NULL);
 	sigprocmask(SIG_SETMASK, &old_sa.sa_mask, NULL);
-	printf("\x1b[0m");
+	printf("\x1b[0m\n");
 }

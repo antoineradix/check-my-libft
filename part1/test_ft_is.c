@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 12:51:27 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/15 17:25:11 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/15 18:21:47 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,6 @@ void	test_ft_is(int (*implem)(int), int (*original)(int))
 			break ;
 		c++;
 	}
-	(c == 201) ? printf("%s [OK]\n", GREEN) : printf("%s [KO]\n", RED);
-	printf("\x1b[0m");
+	(c == 201) ? printf("%s [OK]", GREEN) : printf("%s [KO]", RED);
+	printf("\x1b[0m\n");
 }

@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 12:33:29 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/15 17:09:57 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/15 17:29:48 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,7 @@ int	main(void)
 	test_ft_memset();
 	printf("ft_bzero:            ");
 	test_ft_bzero();
+	printf("ft_memcpy:           ");
+	test_ft_memcpy();
 	return (0);
 }
