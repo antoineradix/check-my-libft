@@ -4,7 +4,7 @@ LIBFT_PATH	=	../libft
 NAME		=	check-my-libft
 
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror -g3
 LDFLAGS		=	-L$(LIBFT_PATH) -lft
 LBSDFLAGS	=	-lbsd
 
@@ -14,7 +14,8 @@ SRCS_PART1	=	part1/test_ft_is.c		\
 				part1/test_ft_bzero.c	\
 				part1/test_ft_memcpy.c	\
 				part1/test_ft_memmove.c	\
-				part1/test_ft_strlcpy.c
+				part1/test_ft_strlcpy.c	\
+				part1/test_ft_strlcat.c
 SRCS		=	$(SRCS_PART1)
 
 OBJS_FOLDER	=	objects

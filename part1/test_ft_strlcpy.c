@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:48:08 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/15 20:52:47 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/15 21:00:46 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,4 +113,5 @@ void	test_ft_strlcpy(void)
 	sigaction(SIGSEGV, &old_sa, NULL);
 	sigprocmask(SIG_SETMASK, &old_sa.sa_mask, NULL);
 	printf("\x1b[0m\n");
+	free(dest);
 }

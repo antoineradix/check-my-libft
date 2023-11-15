@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 12:46:00 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/15 20:04:42 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/15 20:56:25 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 # define CHECK_MY_LIBFT_H
 
 # include "libft.h"
+# include <bsd/string.h>
 # include <ctype.h>
 # include <setjmp.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <string.h>
-#include <bsd/string.h>
 
 # define RED "\x1B[31m"
 # define GREEN "\x1B[32m"
@@ -40,5 +40,6 @@ void							test_ft_bzero(void);
 void							test_ft_memcpy(void);
 void							test_ft_memmove(void);
 void							test_ft_strlcpy(void);
+void							test_ft_strlcat(void);
 
 #endif
