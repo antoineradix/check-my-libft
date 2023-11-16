@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 18:25:36 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/16 21:08:52 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/16 21:21:23 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static bool	cmp_output(char *dest, char *expected_dest, char *src,
 	char	*expected_ret;
 
 	ret = ft_memmove(dest, src, size);
-	expected_ret = ft_memmove(expected_dest, expected_src, size);
+	expected_ret = memmove(expected_dest, expected_src, size);
 	if (ret == NULL && expected_ret == NULL)
 		return (true);
 	if ((ret == NULL && expected_ret != NULL) || (ret != NULL
