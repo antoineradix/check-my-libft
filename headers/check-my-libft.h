@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 12:46:00 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/16 15:18:18 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/16 18:08:40 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,11 @@
 # define RED "\x1B[31m"
 # define GREEN "\x1B[32m"
 
-// Global flag to indicate whether a segfault occurred
 extern volatile sig_atomic_t	segfault_occurred;
-// Buffer to store the jump location for setjmp/longjmp
 extern jmp_buf					jump_buffer;
-// Custom signal handler for SIGSEGV
 void							segfault_handler(int signo);
 
-void							test_ft_is(int (*implem)(int),
-									int (*original)(int));
+void							test_ft_is(int (*implem)(int), int (*original)(int));
 void							test_ft_strlen(void);
 void							test_ft_memset(void);
 void							test_ft_bzero(void);
@@ -41,7 +37,7 @@ void							test_ft_memcpy(void);
 void							test_ft_memmove(void);
 void							test_ft_strlcpy(void);
 void							test_ft_strlcat(void);
-void							test_ft_toupperlower(int (*implem)(int),
-									int (*original)(int));
+void							test_ft_toupperlower(int (*implem)(int), int (*original)(int));
+void							test_ft_strchr(void);
 
 #endif

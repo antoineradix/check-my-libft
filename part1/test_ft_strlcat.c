@@ -6,13 +6,13 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 20:55:48 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/16 15:34:09 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/16 18:08:11 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "check-my-libft.h"
 
-restrict bool	is_segfault(char *dest, char *src, size_t size)
+static bool	is_segfault(char *dest, char *src, size_t size)
 {
 	struct sigaction	sa;
 	struct sigaction	old_sa;
@@ -25,7 +25,7 @@ restrict bool	is_segfault(char *dest, char *src, size_t size)
 	sigaction(SIGSEGV, &sa, NULL);
 	if (setjmp(jump_buffer) == 0)
 	{
-		strlcat(dest, src, size);
+		ft_strlcat(dest, src, size);
 		ret = false;
 	}
 	else
@@ -36,8 +36,8 @@ restrict bool	is_segfault(char *dest, char *src, size_t size)
 	return (ret);
 }
 
-restrict bool	cmp_output(char *dest, char *expected_dest, char *src,
-		size_t size, short cmp_size)
+static bool	cmp_output(char *dest, char *expected_dest, char *src, size_t size,
+		short cmp_size)
 {
 	size_t	ret;
 	size_t	expected_ret;

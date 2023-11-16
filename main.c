@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 12:33:29 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/16 15:19:13 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/16 15:26:09 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,7 @@ int	main(void)
 	test_ft_toupperlower(ft_toupper, toupper);
 	printf("ft_tolower:          ");
 	test_ft_toupperlower(ft_tolower, tolower);
+	printf("ft_strchr:           ");
+	test_ft_strchr();
 	return (0);
 }

@@ -16,7 +16,8 @@ SRCS_PART1	=	part1/test_ft_is.c				\
 				part1/test_ft_memmove.c			\
 				part1/test_ft_strlcpy.c			\
 				part1/test_ft_strlcat.c			\
-				part1/test_ft_toupperlower.c
+				part1/test_ft_toupperlower.c	\
+				part1/test_ft_strchr.c	
 SRCS		=	$(SRCS_PART1)
 
 OBJS_FOLDER	=	objects
