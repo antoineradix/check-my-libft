@@ -6,11 +6,35 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 18:55:30 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/16 19:16:35 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/16 19:31:33 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "check-my-libft.h"
+
+static bool	is_segfault(char *s, int c, size_t n)
+{
+	struct sigaction	sa;
+	struct sigaction	old_sa;
+	bool				ret;
+
+	sa.sa_handler = segfault_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGSEGV, NULL, &old_sa);
+	sigaction(SIGSEGV, &sa, NULL);
+	if (setjmp(jump_buffer) == 0)
+	{
+		ft_memchr(s, c, n);
+		ret = false;
+	}
+	else
+		ret = true;
+	segfault_occurred = 0;
+	sigaction(SIGSEGV, &old_sa, NULL);
+	sigprocmask(SIG_SETMASK, &old_sa.sa_mask, NULL);
+	return (ret);
+}
 
 static bool	cmp_output(char *s, int c, size_t n)
 {
@@ -61,6 +85,16 @@ void	test_ft_memchr(void)
 		printf("%s 6:[OK]", GREEN);
 	else
 		printf("%s 6:[KO]", RED);
+	/* -------------------- TEST 07 -------------------- */
+	if (is_segfault(NULL, 'a', 0))
+		printf("%s 7:[KO]", RED);
+	else
+		printf("%s 7:[OK]", GREEN);
+	/* -------------------- TEST 08 -------------------- */
+	if (is_segfault(NULL, 'a', 1))
+		printf("%s 8:[OK]", GREEN);
+	else
+		printf("%s 8:[KO]", RED);
 	/* -------------------------------------------------- */
 	printf("\x1b[0m\n");
 }

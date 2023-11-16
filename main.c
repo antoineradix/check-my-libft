@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 12:33:29 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/16 18:57:57 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/16 19:19:22 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,7 @@ int	main(void)
 	test_ft_strncmp();
 	printf("ft_memchr:           ");
 	test_ft_memchr();
+	printf("ft_memcmp:           ");
+	test_ft_memcmp();
 	return (0);
 }
