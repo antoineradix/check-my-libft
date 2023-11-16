@@ -1,7 +1,7 @@
 # Todo
 
 - test all functions
-- be able to test a single function
+- be able to test a single function (make "strlen" then send as argv to my main.c in my Makefile)
 
 ```C
   str = (char *)malloc(sizeof(char) * 10);
