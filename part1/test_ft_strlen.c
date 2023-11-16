@@ -6,55 +6,75 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 14:34:13 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/15 21:05:26 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/16 22:12:33 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "check-my-libft.h"
 
-void	test_ft_strlen(void)
+static bool	is_segfault(char *s)
 {
-	size_t				value;
-	size_t				expected_value;
 	struct sigaction	sa;
 	struct sigaction	old_sa;
+	bool				ret;
 
-	/* TEST WITH BASIC STRING */
-	value = ft_strlen("Hello World ! :)");
-	expected_value = strlen("Hello World ! :)");
-	if (value == expected_value)
-		printf("%s [OK]", GREEN);
-	else
-		printf("%s [KO]", RED);
-	/* TEST WITH EMPTY STRING */
-	value = ft_strlen("");
-	expected_value = strlen("");
-	if (value == expected_value)
-		printf("%s [OK]", GREEN);
-	else
-		printf("%s [KO]", RED);
-	/* TEST WITH 0 IN THE MIDDLE */
-	value = ft_strlen("aaaa\0bbbbb");
-	expected_value = strlen("aaaa\0bbbbb");
-	if (value == expected_value)
-		printf("%s [OK]", GREEN);
-	else
-		printf("%s [KO]", RED);
-	/* TEST CRASH WITH NULL */
-	sigaction(SIGSEGV, NULL, &old_sa);
 	sa.sa_handler = segfault_handler;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
+	sigaction(SIGSEGV, NULL, &old_sa);
 	sigaction(SIGSEGV, &sa, NULL);
 	if (setjmp(jump_buffer) == 0)
 	{
-		ft_strlen(NULL);
-		printf("%s [KO]", RED);
+		ft_strlen(s);
+		ret = false;
 	}
 	else
-		printf("%s [OK]", GREEN);
+		ret = true;
 	segfault_occurred = 0;
 	sigaction(SIGSEGV, &old_sa, NULL);
 	sigprocmask(SIG_SETMASK, &old_sa.sa_mask, NULL);
+	return (ret);
+}
+
+static bool	cmp_output(char *s)
+{
+	size_t	ret;
+	size_t	expected_ret;
+
+	ret = ft_strlen(s);
+	expected_ret = strlen(s);
+	if (ret == expected_ret)
+		return (true);
+	return (false);
+}
+
+void	test_ft_strlen(void)
+{
+	/* -------------------- TEST 01 -------------------- */
+	if (cmp_output("Hello World ! :)"))
+		printf("%s 1:[OK]", GREEN);
+	else
+		printf("%s 1:[KO]", RED);
+	/* -------------------- TEST 02 -------------------- */
+	if (cmp_output(""))
+		printf("%s 2:[OK]", GREEN);
+	else
+		printf("%s 2:[KO]", RED);
+	/* -------------------- TEST 03 -------------------- */
+	if (cmp_output("Hello \0 Wirkd ! :)"))
+		printf("%s 3:[OK]", GREEN);
+	else
+		printf("%s 3:[KO]", RED);
+	/* -------------------- TEST 04 -------------------- */
+	if (is_segfault(NULL))
+		printf("%s 4:[OK]", GREEN);
+	else
+		printf("%s 4:[KO]", RED);
+	/* -------------------- TEST 05 -------------------- */
+	if (cmp_output("wedmwewmflwmflwmflmfmw'lmme wqmg mqregm ermgmr;lmre;lmre;lmg;lremqg;ler;gl;rmgmql;emgl;remgl;mktrjio5jtiojjoijfregr4g6549946er4g65e4r5grgr4654r654f"))
+		printf("%s 5:[OK]", GREEN);
+	else
+		printf("%s 5:[KO]", RED);
+	/* -------------------------------------------------- */
 	printf("\x1b[0m\n");
 }
