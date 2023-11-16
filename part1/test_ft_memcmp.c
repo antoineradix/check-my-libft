@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 19:17:58 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/16 19:46:11 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/16 19:47:34 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,11 @@ void	test_ft_memcmp(void)
 		printf("%s 5:[OK]", GREEN);
 	else
 		printf("%s 5:[KO]", RED);
-	/* -------------------- TEST 05 -------------------- */
+	/* -------------------- TEST 06 -------------------- */
 	if (is_segfault(NULL, NULL, 0))
-		printf("%s 5:[KO]", RED);
+		printf("%s 6:[KO]", RED);
 	else
-		printf("%s 5:[OK]", GREEN);
+		printf("%s 6:[OK]", GREEN);
 	/* -------------------------------------------------- */
 	printf("\x1b[0m\n");
 }
