@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:48:08 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/16 20:14:33 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/16 21:44:02 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,6 @@ void	test_ft_strlcpy(void)
 		printf("%s 7:[KO]", RED);
 	/* -------------------------------------------------- */
 	free(dest);
-	/* free(expected_dest); erro if enable :( */
+	/* free(expected_dest); error if enable :( */
 	printf("\x1b[0m\n");
 }

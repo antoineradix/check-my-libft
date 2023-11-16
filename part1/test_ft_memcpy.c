@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 17:27:58 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/16 21:35:53 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/16 21:39:32 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	test_ft_memcpy(void)
 		free(expected_dest);
 		perror("Memory allocation error\n");
 		exit(EXIT_FAILURE);
-		return ;
 	}
 	dest = memset(dest, 'p', 25);
 	expected_dest = memset(expected_dest, 'p', 25);
