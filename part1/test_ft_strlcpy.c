@@ -6,112 +6,102 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:48:08 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/15 21:00:46 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/16 20:12:47 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "check-my-libft.h"
 
-void	test_ft_strlcpy(void)
+static bool	is_segfault(char *dest, char *src, size_t size)
 {
-	char				*dest;
-	char				*expected_dest;
-	size_t				ret;
-	size_t				expected_ret;
 	struct sigaction	sa;
 	struct sigaction	old_sa;
+	bool				ret;
+
+	sa.sa_handler = segfault_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGSEGV, NULL, &old_sa);
+	sigaction(SIGSEGV, &sa, NULL);
+	if (setjmp(jump_buffer) == 0)
+	{
+		ft_strlcpy(dest, src, size);
+		ret = false;
+	}
+	else
+		ret = true;
+	segfault_occurred = 0;
+	sigaction(SIGSEGV, &old_sa, NULL);
+	sigprocmask(SIG_SETMASK, &old_sa.sa_mask, NULL);
+	return (ret);
+}
+
+static bool	cmp_output(char *dest, char *expected_dest, char *src, size_t size,
+		short cmp_size)
+{
+	size_t	ret;
+	size_t	expected_ret;
+
+	ret = ft_strlcpy(dest, src, size);
+	expected_ret = strlcpy(expected_dest, src, size);
+	if ((ret == expected_ret) && memcmp(dest, expected_dest, cmp_size) == 0)
+		return (true);
+	return (false);
+}
+
+void	test_ft_strlcpy(void)
+{
+	char	*dest;
+	char	*expected_dest;
 
 	dest = (char *)malloc(sizeof(char) * 25);
-	if (!dest)
-		return ;
 	expected_dest = (char *)malloc(sizeof(char) * 25);
-	if (!expected_dest)
+	if (dest == NULL || expected_dest == NULL)
 	{
 		free(dest);
-		return ;
+		free(expected_dest);
+		perror("Memory allocation error\n");
+		exit(EXIT_FAILURE);
 	}
 	dest = memcpy(dest, "test fghij 12345678942 !\0", 25);
 	expected_dest = memcpy(dest, "test fghij 12345678942 !\0", 25);
-	/* BASIC INPUT TEST */
-	ret = ft_strlcpy(dest, "abcdexxxxxxxxxxx", 6);
-	expected_ret = strlcpy(expected_dest, "abcdexxxxxxxxxxx", 6);
-	if (ret == expected_ret && memcmp(dest, expected_dest, 25) == 0)
-		printf("%s [OK]", GREEN);
+	/* -------------------- TEST 01 -------------------- */
+	if (cmp_output(dest, expected_dest, "abcdexxxxxxxxxxx", 6, 25))
+		printf("%s 1:[OK]", GREEN);
 	else
-		printf("%s [KO]", RED);
-	/* WITH SIZE 0 */
-	ret = ft_strlcpy(dest, "---", 0);
-	expected_ret = strlcpy(expected_dest, "---", 0);
-	if (ret == expected_ret && memcmp(dest, expected_dest, 25) == 0)
-		printf("%s [OK]", GREEN);
+		printf("%s 1:[KO]", RED);
+	/* -------------------- TEST 02 -------------------- */
+	if (cmp_output(dest, expected_dest, "---", 0, 25))
+		printf("%s 2:[OK]", GREEN);
 	else
-		printf("%s [KO]", RED);
-	/* FILL WHOLE DST */
-	ret = ft_strlcpy(dest, "01234567890123456789abcd", 100);
-	expected_ret = strlcpy(expected_dest, "01234567890123456789abcd", 100);
-	if (ret == expected_ret && memcmp(dest, expected_dest, 25) == 0)
-		printf("%s [OK]", GREEN);
+		printf("%s 2:[KO]", RED);
+	/* -------------------- TEST 03 -------------------- */
+	if (cmp_output(dest, expected_dest, "01234567890123456789", 100, 25))
+		printf("%s 3:[OK]", GREEN);
 	else
-		printf("%s [KO]", RED);
-	/* TEST WITH EMPTY STRING */
-	ret = ft_strlcpy(dest, "", 1);
-	expected_ret = strlcpy(expected_dest, "", 1);
-	if (ret == expected_ret)
-		printf("%s [OK]", GREEN);
+		printf("%s 3:[KO]", RED);
+	/* -------------------- TEST 04 -------------------- */
+	if (cmp_output(dest, expected_dest, "", 1, 25))
+		printf("%s 4:[OK]", GREEN);
 	else
-		printf("%s [KO]", RED);
-	/* WITH SIZE 0 AND DEST == NULL (MUST NOT CRASH) */
-	sigaction(SIGSEGV, NULL, &old_sa);
-	sa.sa_handler = segfault_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGSEGV, &sa, NULL);
-	if (setjmp(jump_buffer) == 0)
-	{
-		ret = ft_strlcpy(NULL, "--", 0);
-		expected_ret = strlcpy(NULL, "--", 0);
-		if (ret == expected_ret)
-			printf("%s [OK]", GREEN);
-		else
-			printf("%s [KO]", RED);
-	}
+		printf("%s 4:[KO]", RED);
+	/* -------------------- TEST 05 -------------------- */
+	if (is_segfault(NULL, "--", 0))
+		printf("%s 5:[KO]", RED);
 	else
-		printf("%s [KO]", RED);
-	segfault_occurred = 0;
-	sigaction(SIGSEGV, &old_sa, NULL);
-	sigprocmask(SIG_SETMASK, &old_sa.sa_mask, NULL);
-	/* WITH SIZE > 0 AND DEST == NULL (MUST NOT CRASH) */
-	sigaction(SIGSEGV, NULL, &old_sa);
-	sa.sa_handler = segfault_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGSEGV, &sa, NULL);
-	if (setjmp(jump_buffer) == 0)
-	{
-		ft_strlcpy(NULL, "--", 1);
-		printf("%s [KO]", RED);
-	}
+		printf("%s 5:[OK]", GREEN);
+	/* -------------------- TEST 06 -------------------- */
+	if (is_segfault(NULL, "--", 1))
+		printf("%s 6:[OK]", GREEN);
 	else
-		printf("%s [OK]", GREEN);
-	segfault_occurred = 0;
-	sigaction(SIGSEGV, &old_sa, NULL);
-	sigprocmask(SIG_SETMASK, &old_sa.sa_mask, NULL);
-	/* WITH SIZE 0 AND DEST == NULL */
-	sigaction(SIGSEGV, NULL, &old_sa);
-	sa.sa_handler = segfault_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGSEGV, &sa, NULL);
-	if (setjmp(jump_buffer) == 0)
-	{
-		ft_strlcpy(NULL, "---", 0);
-		printf("%s [OK]", GREEN);
-	}
+		printf("%s 6:[KO]", RED);
+	/* -------------------- TEST 07 -------------------- */
+	if (is_segfault("--", NULL, 0))
+		printf("%s 7:[OK]", GREEN);
 	else
-		printf("%s [KO]", RED);
-	segfault_occurred = 0;
-	sigaction(SIGSEGV, &old_sa, NULL);
-	sigprocmask(SIG_SETMASK, &old_sa.sa_mask, NULL);
-	printf("\x1b[0m\n");
+		printf("%s 7:[KO]", RED);
+	/* -------------------------------------------------- */
 	free(dest);
+	/* free(expected_dest); erro if enable :( */
+	printf("\x1b[0m\n");
 }
