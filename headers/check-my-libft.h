@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 12:46:00 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/16 18:08:40 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/16 18:10:20 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ void							test_ft_strlcpy(void);
 void							test_ft_strlcat(void);
 void							test_ft_toupperlower(int (*implem)(int), int (*original)(int));
 void							test_ft_strchr(void);
+void							test_ft_strrchr(void);
 
 #endif
