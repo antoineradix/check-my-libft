@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 20:55:48 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/16 14:41:49 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/16 14:44:14 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,4 +122,8 @@ void	test_ft_strlcat(void)
 		printf("%s 10:[OK]", GREEN);
 	else
 		printf("%s 10:[KO]", RED);
+	/* -------------------------------------------------- */
+	free(dest);
+	free(expected_dest);
+	printf("\x1b[0m\n");
 }
