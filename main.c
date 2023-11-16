@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 12:33:29 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/16 23:02:09 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/16 23:37:13 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,7 @@ int	main(void)
 	test_ft_strnstr();
 	printf("ft_atoi:             ");
 	test_ft_atoi();
+	printf("ft_calloc:           ");
+	test_ft_calloc();
 	return (0);
 }

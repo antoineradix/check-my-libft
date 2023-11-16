@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 12:46:00 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/16 23:01:19 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/16 23:35:34 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <string.h>
+# include <malloc.h>
 
 # define RED "\x1B[31m"
 # define GREEN "\x1B[32m"
@@ -45,5 +46,6 @@ void							test_ft_memchr(void);
 void							test_ft_memcmp(void);
 void							test_ft_strnstr(void);
 void							test_ft_atoi(void);
+void							test_ft_calloc(void);
 
 #endif

@@ -4,7 +4,7 @@ LIBFT_PATH	=	../libft
 NAME		=	check-my-libft
 
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -g3
+CFLAGS		=	-Wall -Wextra -Werror
 LDFLAGS		=	-L$(LIBFT_PATH) -lft
 LBSDFLAGS	=	-lbsd
 
@@ -23,7 +23,9 @@ SRCS_PART1	=	part1/test_ft_is.c				\
 				part1/test_ft_memchr.c			\
 				part1/test_ft_memcmp.c			\
 				part1/test_ft_strnstr.c			\
-				part1/test_ft_atoi.c
+				part1/test_ft_atoi.c			\
+				part1/test_ft_calloc.c
+SRCS_PART2	=	""
 SRCS		=	$(SRCS_PART1)
 
 OBJS_FOLDER	=	objects
@@ -46,6 +48,12 @@ $(NAME): libft $(OBJS)
 part1: libft $(OBJS_PART1)
 	$(CC) $(CFLAGS) -I $(HEADERS) -I $(LIBFT_PATH) main.c $(OBJS_PART1) $(LDFLAGS) -o $(NAME) $(LBSDFLAGS)
 	./$(NAME)
+
+part2:
+	@echo "Coming soon :)"
+
+bonus:
+	@echo "Coming soon :)"
 
 $(OBJS_FOLDER)/%.o: %.c
 	@mkdir -p $(@D)
