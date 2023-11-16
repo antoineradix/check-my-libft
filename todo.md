@@ -20,3 +20,4 @@
 - free allocated memory
 - cleaner way to test segfault ?
 - number the tests
+- make reusable func to compare result and test crash
