@@ -1,12 +1,13 @@
 # define your libft path here
-LIBFT_PATH	=	../libft
+LIBFT_PATH	=	../school-projects/libft
 
 NAME		=	check-my-libft
 
 CC			=	gcc
 CFLAGS		=	-Wall -Wextra -Werror
 LDFLAGS		=	-L$(LIBFT_PATH) -lft
-LBSDFLAGS	=	-lbsd
+
+LBSDFLAGS	=
 
 SRCS_PART1	=	part1/test_ft_is.c				\
 				part1/test_ft_strlen.c			\
@@ -24,9 +25,11 @@ SRCS_PART1	=	part1/test_ft_is.c				\
 				part1/test_ft_memcmp.c			\
 				part1/test_ft_strnstr.c			\
 				part1/test_ft_atoi.c			\
-				part1/test_ft_calloc.c
-SRCS_PART2	=	""
-SRCS		=	$(SRCS_PART1)
+				part1/test_ft_calloc.c			\
+				part1/test_ft_strdup.c
+SRCS_PART2	=	part2/test_ft_substr.c			\
+				part2/test_ft_strjoin.c			
+SRCS		=	$(SRCS_PART1) $(SRCS_PART2)
 
 OBJS_FOLDER	=	objects
 OBJS_PART1	=	$(addprefix $(OBJS_FOLDER)/,$(SRCS_PART1:.c=.o))

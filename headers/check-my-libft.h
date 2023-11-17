@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 12:46:00 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/16 23:35:34 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/19 18:00:26 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,13 @@
 # define CHECK_MY_LIBFT_H
 
 # include "libft.h"
-# include <bsd/string.h>
 # include <ctype.h>
+# include <malloc/malloc.h>
 # include <setjmp.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <string.h>
-# include <malloc.h>
 
 # define RED "\x1B[31m"
 # define GREEN "\x1B[32m"
@@ -30,6 +29,8 @@ extern volatile sig_atomic_t	segfault_occurred;
 extern jmp_buf					jump_buffer;
 void							segfault_handler(int signo);
 
+
+/* PART1 */
 void							test_ft_is(int (*implem)(int), int (*original)(int));
 void							test_ft_strlen(void);
 void							test_ft_memset(void);
@@ -47,5 +48,10 @@ void							test_ft_memcmp(void);
 void							test_ft_strnstr(void);
 void							test_ft_atoi(void);
 void							test_ft_calloc(void);
+void							test_ft_strdup(void);
+
+/* PART2 */
+void							test_ft_substr(void);
+void							test_ft_strjoin(void);
 
 #endif

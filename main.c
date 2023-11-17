@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 12:33:29 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/16 23:37:13 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/19 18:08:11 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	segfault_handler(int signo)
 
 int	main(void)
 {
-	// PART 1
+	/* PART 1 */
 	printf("ft_isalpha:          ");
 	test_ft_is(ft_isalpha, isalpha);
 	printf("ft_isdigit:          ");
@@ -69,5 +69,13 @@ int	main(void)
 	test_ft_atoi();
 	printf("ft_calloc:           ");
 	test_ft_calloc();
+	printf("ft_strdup:           ");
+	test_ft_strdup();
+
+	/* PART2 */
+	printf("ft_substr:           ");
+	test_ft_substr();
+	printf("ft_strjoin:          ");
+	test_ft_strjoin();
 	return (0);
 }
