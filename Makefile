@@ -41,7 +41,8 @@ PART1		=	ft_isalpha		\
 				ft_strdup		\
 
 # targets for part2
-PART2		=	ft_lol			\
+PART2		=	ft_substr		\
+				ft_strjoin		\
 
 # targets for bonus
 BONUS		=	ft_uiii			\
