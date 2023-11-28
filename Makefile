@@ -1,71 +1,58 @@
 # define your libft path here
 LIBFT_PATH	=	../school-projects/libft
-
-NAME		=	check-my-libft
+LIBFT		=	$(LIBFT_PATH)/libft.a
 
 CC			=	gcc
 CFLAGS		=	-Wall -Wextra -Werror
 LDFLAGS		=	-L$(LIBFT_PATH) -lft
-
 LBSDFLAGS	=
-
-SRCS_PART1	=	part1/test_ft_is.c				\
-				part1/test_ft_strlen.c			\
-				part1/test_ft_memset.c			\
-				part1/test_ft_bzero.c			\
-				part1/test_ft_memcpy.c			\
-				part1/test_ft_memmove.c			\
-				part1/test_ft_strlcpy.c			\
-				part1/test_ft_strlcat.c			\
-				part1/test_ft_toupperlower.c	\
-				part1/test_ft_strchr.c			\
-				part1/test_ft_strrchr.c			\
-				part1/test_ft_strncmp.c			\
-				part1/test_ft_memchr.c			\
-				part1/test_ft_memcmp.c			\
-				part1/test_ft_strnstr.c			\
-				part1/test_ft_atoi.c			\
-				part1/test_ft_calloc.c			\
-				part1/test_ft_strdup.c
-SRCS_PART2	=	part2/test_ft_substr.c			\
-				part2/test_ft_strjoin.c			
-SRCS		=	$(SRCS_PART1) $(SRCS_PART2)
-
-OBJS_FOLDER	=	objects
-OBJS_PART1	=	$(addprefix $(OBJS_FOLDER)/,$(SRCS_PART1:.c=.o))
-OBJS		=	$(addprefix $(OBJS_FOLDER)/,$(SRCS:.c=.o))
 
 HEADERS		=	headers
 
-.PHONY: all clean fclean re libft
+PART1		=	ft_isalpha		\
+				ft_isdigit		\
+				ft_isalnum		\
+				ft_isascii		\
+				ft_isprint		\
+				ft_strlen		\
+				ft_memset		\
+				ft_bzero		\
+				ft_memcpy		\
+				ft_memmove		\
+				ft_strlcpy		\
+				ft_strlcat		\
+				ft_toupper		\
+				ft_tolower		\
+				ft_strchr		\
+				ft_strrchr		\
+				ft_strncmp		\
 
-all: $(NAME)
+PART2		=	ft_ss ft_mdr
+BONUS		=	bonuss
+
+TESTS		=	tests
+
+all part1 part2 bonus %: | libft
+	@for item in $(SRCS); do \
+		if nm -g -o $(LIBFT) | grep -q $$item; then \
+			$(CC) $(CFLAGS) -I$(LIBFT_PATH) -I$(HEADERS) -o test_$$item $(TESTS)/$$item.c segfault_handler.c $(LDFLAGS) $(LBSDFLAGS); \
+			./test_$$item; \
+			rm -f test_$$item; \
+		fi \
+	done
+
+all: SRCS=$(PART1) $(PART2) $(BONUS)
+part1: SRCS=$(PART1)
+part2: SRCS=$(PART2)
+bonus: SRCS=$(BONUS)
+%: SRCS=$@
 
 libft:
-	$(MAKE) -C $(LIBFT_PATH) re
+	@$(MAKE) -C $(LIBFT_PATH) > /dev/null;
 
-$(NAME): libft $(OBJS)
-	$(CC) $(CFLAGS) -I $(HEADERS) -I $(LIBFT_PATH) main.c $(OBJS) $(LDFLAGS) -o $(NAME) $(LBSDFLAGS)
-	./$(NAME)
+libft_re:
+	@$(MAKE) -C $(LIBFT_PATH) re > /dev/null;
 
-part1: libft $(OBJS_PART1)
-	$(CC) $(CFLAGS) -I $(HEADERS) -I $(LIBFT_PATH) main.c $(OBJS_PART1) $(LDFLAGS) -o $(NAME) $(LBSDFLAGS)
-	./$(NAME)
+re: libft_re all
 
-part2:
-	@echo "Coming soon :)"
-
-bonus:
-	@echo "Coming soon :)"
-
-$(OBJS_FOLDER)/%.o: %.c
-	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -I $(HEADERS) -I $(LIBFT_PATH) -c $< -o $@
-
-clean:
-	rm -rf $(OBJS_FOLDER)
-
-fclean: clean
-	rm -f $(NAME)
-
-re: fclean all
+.PHONY: all part1 part2 bonus libft libft_re re
