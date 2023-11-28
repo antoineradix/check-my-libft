@@ -18,4 +18,5 @@ You can also specify which part of your project you want to test:
 
 - Part 1: `make part1`<br>
 - Part 2: `make part2`<br>
-- Bonus: `make bonus`
+- Bonus: `make bonus`<br>
+- Single function: `make ft_function`
