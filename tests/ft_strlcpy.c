@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 23:04:01 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/22 23:17:05 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/28 15:08:04 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,17 @@
 
 static bool	is_segfault(char *dest, char *src, size_t size)
 {
-	struct sigaction	sa;
-	struct sigaction	old_sa;
-	bool				ret;
-
-	sa.sa_handler = segfault_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGSEGV, NULL, &old_sa);
-	sigaction(SIGSEGV, &sa, NULL);
-	if (setjmp(jump_buffer) == 0)
+	if (signal(SIGSEGV, signal_handler) == SIG_ERR)
+	{
+		fprintf(stderr, "Failed to set up signal handler\n");
+		exit(1);
+	}
+	if (sigsetjmp(env, 1) == 0)
 	{
 		ft_strlcpy(dest, src, size);
-		ret = false;
+		return (0);
 	}
-	else
-		ret = true;
-	segfault_occurred = 0;
-	sigaction(SIGSEGV, &old_sa, NULL);
-	sigprocmask(SIG_SETMASK, &old_sa.sa_mask, NULL);
-	return (ret);
+	return (1);
 }
 
 static bool	cmp_output(char *dest, char *expected_dest, char *src, size_t size,
@@ -49,40 +40,29 @@ static bool	cmp_output(char *dest, char *expected_dest, char *src, size_t size,
 	return (false);
 }
 
-int		main(void)
+int	main(void)
 {
-	char	*dest;
-	char	*expected_dest;
+	char	dest[26] = "abcdefghijklmnopqrstuvwxyz";
+	char	expected_dest[26] = "abcdefghijklmnopqrstuvwxyz";
 
 	printf("ft_strlcpy:          ");
-	dest = (char *)malloc(sizeof(char) * 25);
-	expected_dest = (char *)malloc(sizeof(char) * 25);
-	if (dest == NULL || expected_dest == NULL)
-	{
-		free(dest);
-		free(expected_dest);
-		perror("Memory allocation error\n");
-		exit(EXIT_FAILURE);
-	}
-	dest = memcpy(dest, "test fghij 12345678942 !\0", 25);
-	expected_dest = memcpy(dest, "test fghij 12345678942 !\0", 25);
 	/* -------------------- TEST 01 -------------------- */
-	if (cmp_output(dest, expected_dest, "abcdexxxxxxxxxxx", 6, 25))
+	if (cmp_output(dest, expected_dest, "abcdexxxxxxxxxxx", 6, 26))
 		printf("%s 1:[OK]", GREEN);
 	else
 		printf("%s 1:[KO]", RED);
 	/* -------------------- TEST 02 -------------------- */
-	if (cmp_output(dest, expected_dest, "---", 0, 25))
+	if (cmp_output(dest, expected_dest, "---", 0, 26))
 		printf("%s 2:[OK]", GREEN);
 	else
 		printf("%s 2:[KO]", RED);
 	/* -------------------- TEST 03 -------------------- */
-	if (cmp_output(dest, expected_dest, "01234567890123456789", 100, 25))
+	if (cmp_output(dest, expected_dest, "01234567890123456789", 100, 26))
 		printf("%s 3:[OK]", GREEN);
 	else
 		printf("%s 3:[KO]", RED);
 	/* -------------------- TEST 04 -------------------- */
-	if (cmp_output(dest, expected_dest, "", 1, 25))
+	if (cmp_output(dest, expected_dest, "", 1, 26))
 		printf("%s 4:[OK]", GREEN);
 	else
 		printf("%s 4:[KO]", RED);
@@ -102,7 +82,5 @@ int		main(void)
 	else
 		printf("%s 7:[KO]", RED);
 	/* -------------------------------------------------- */
-	free(dest);
-	/* free(expected_dest); error if enable :( */
 	printf("\x1b[0m\n");
 }

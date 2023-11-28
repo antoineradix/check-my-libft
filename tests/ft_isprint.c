@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 22:17:19 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/22 23:16:46 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/28 15:08:39 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ static bool	cmp_output(int c)
 
 int	main(void)
 {
-	printf("ft_isprint:          ");
 	int	c;
+
+	printf("ft_isprint:          ");
 	/* -------------------- TEST 01 -------------------- */
 	c = 0;
 	while (c <= 127 && cmp_output(c))

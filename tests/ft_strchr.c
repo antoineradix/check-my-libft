@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 23:12:17 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/22 23:14:07 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/28 15:24:02 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,17 @@
 
 static bool	is_segfault(char *s, char c)
 {
-	struct sigaction	sa;
-	struct sigaction	old_sa;
-	bool				ret;
-
-	sa.sa_handler = segfault_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGSEGV, NULL, &old_sa);
-	sigaction(SIGSEGV, &sa, NULL);
-	if (setjmp(jump_buffer) == 0)
+	if (signal(SIGSEGV, signal_handler) == SIG_ERR)
+	{
+		fprintf(stderr, "Failed to set up signal handler\n");
+		exit(1);
+	}
+	if (sigsetjmp(env, 1) == 0)
 	{
 		ft_strchr(s, c);
-		ret = false;
+		return (0);
 	}
-	else
-		ret = true;
-	segfault_occurred = 0;
-	sigaction(SIGSEGV, &old_sa, NULL);
-	sigprocmask(SIG_SETMASK, &old_sa.sa_mask, NULL);
-	return (ret);
+	return (1);
 }
 
 static bool	cmp_output(char *s, int c)
@@ -53,7 +44,7 @@ static bool	cmp_output(char *s, int c)
 	return (false);
 }
 
-int		main(void)
+int	main(void)
 {
 	printf("ft_strchr:           ");
 	/* -------------------- TEST 01 -------------------- */

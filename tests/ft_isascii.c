@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 22:15:55 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/22 23:16:40 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/28 15:08:42 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ static bool	cmp_output(int c)
 
 int	main(void)
 {
-	printf("ft_isascii:          ");
 	int	c;
+
+	printf("ft_isascii:          ");
 	/* -------------------- TEST 01 -------------------- */
 	c = 0;
 	while (c <= 127 && cmp_output(c))

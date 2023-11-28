@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 12:46:00 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/19 18:00:26 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/28 21:10:10 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,44 +14,22 @@
 # define CHECK_MY_LIBFT_H
 
 # include "libft.h"
+# include <bsd/string.h>
 # include <ctype.h>
-# include <malloc/malloc.h>
+# include <malloc.h>
 # include <setjmp.h>
 # include <signal.h>
 # include <stdbool.h>
+# include <stdint.h>
 # include <stdio.h>
+# include <stdlib.h>
 # include <string.h>
 
 # define RED "\x1B[31m"
 # define GREEN "\x1B[32m"
 
-extern volatile sig_atomic_t	segfault_occurred;
-extern jmp_buf					jump_buffer;
-void							segfault_handler(int signo);
+extern sigjmp_buf	env;
 
-
-/* PART1 */
-void							test_ft_is(int (*implem)(int), int (*original)(int));
-void							test_ft_strlen(void);
-void							test_ft_memset(void);
-void							test_ft_bzero(void);
-void							test_ft_memcpy(void);
-void							test_ft_memmove(void);
-void							test_ft_strlcpy(void);
-void							test_ft_strlcat(void);
-void							test_ft_toupperlower(int (*implem)(int), int (*original)(int));
-void							test_ft_strchr(void);
-void							test_ft_strrchr(void);
-void							test_ft_strncmp(void);
-void							test_ft_memchr(void);
-void							test_ft_memcmp(void);
-void							test_ft_strnstr(void);
-void							test_ft_atoi(void);
-void							test_ft_calloc(void);
-void							test_ft_strdup(void);
-
-/* PART2 */
-void							test_ft_substr(void);
-void							test_ft_strjoin(void);
+void				signal_handler(int signo);
 
 #endif

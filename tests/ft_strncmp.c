@@ -1,107 +1,94 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_ft_strnstr.c                                  :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/16 22:25:21 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/16 22:59:29 by aradix           ###   ########.fr       */
+/*   Created: 2023/11/22 23:17:44 by aradix            #+#    #+#             */
+/*   Updated: 2023/11/28 19:03:39 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "check-my-libft.h"
 
-static bool	is_segfault(char *big, char *little, size_t n)
+static bool	is_segfault(char *s1, char *s2, size_t n)
 {
-	struct sigaction	sa;
-	struct sigaction	old_sa;
-	bool				ret;
-
-	sa.sa_handler = segfault_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGSEGV, NULL, &old_sa);
-	sigaction(SIGSEGV, &sa, NULL);
-	if (setjmp(jump_buffer) == 0)
+	if (signal(SIGSEGV, signal_handler) == SIG_ERR)
 	{
-		ft_strnstr(big, little, n);
-		ret = false;
+		fprintf(stderr, "Failed to set up signal handler\n");
+		exit(1);
 	}
-	else
-		ret = true;
-	segfault_occurred = 0;
-	sigaction(SIGSEGV, &old_sa, NULL);
-	sigprocmask(SIG_SETMASK, &old_sa.sa_mask, NULL);
-	return (ret);
+	if (sigsetjmp(env, 1) == 0)
+	{
+		ft_strncmp(s1, s2, n);
+		return (0);
+	}
+	return (1);
 }
 
-static bool	cmp_output(char *big, char *little, size_t n)
+static bool	cmp_output(char *s1, char *s2, size_t n)
 {
-	char	*ret;
-	char	*expected_ret;
+	int	ret;
+	int	expected_ret;
 
-	ret = ft_strnstr(big, little, n);
-	expected_ret = strnstr(big, little, n);
-	if (ret == NULL && expected_ret == NULL)
-		return (true);
-	if ((ret == NULL && expected_ret != NULL) || (ret != NULL
-			&& expected_ret == NULL))
-		return (false);
-	if (strcmp(ret, expected_ret) == 0)
+	ret = ft_strncmp(s1, s2, n);
+	expected_ret = strncmp(s1, s2, n);
+	if (ret == expected_ret)
 		return (true);
 	return (false);
 }
 
-void	test_ft_strnstr(void)
+int	main(void)
 {
+	printf("ft_strncmp:          ");
 	/* -------------------- TEST 01 -------------------- */
-	if (cmp_output("Hello World !", "lo", 100))
+	if (cmp_output("hello world !", "hello world !", 100))
 		printf("%s 1:[OK]", GREEN);
 	else
 		printf("%s 1:[KO]", RED);
 	/* -------------------- TEST 02 -------------------- */
-	if (cmp_output("Hello World !", "lO", 100))
+	if (cmp_output("hello world !", "helo world !", 100))
 		printf("%s 2:[OK]", GREEN);
 	else
 		printf("%s 2:[KO]", RED);
 	/* -------------------- TEST 03 -------------------- */
-	if (cmp_output("Hello World !", "!\0", 100))
+	if (cmp_output("hello world !", "helo world !", 2))
 		printf("%s 3:[OK]", GREEN);
 	else
 		printf("%s 3:[KO]", RED);
 	/* -------------------- TEST 04 -------------------- */
-	if (cmp_output("Hello World !", "!\0", 100))
+	if (cmp_output("", "", 1))
 		printf("%s 4:[OK]", GREEN);
 	else
 		printf("%s 4:[KO]", RED);
 	/* -------------------- TEST 05 -------------------- */
-	if (cmp_output("ab", "b", 1))
+	if (cmp_output("b", "a", 0))
 		printf("%s 5:[OK]", GREEN);
 	else
 		printf("%s 5:[KO]", RED);
 	/* -------------------- TEST 06 -------------------- */
-	if (cmp_output("ab", "", 2))
+	if (cmp_output("abcd", "ab", 4))
 		printf("%s 6:[OK]", GREEN);
 	else
 		printf("%s 6:[KO]", RED);
 	/* -------------------- TEST 07 -------------------- */
-	if (cmp_output("", "", 0))
+	if (cmp_output("ab", "abcd", 4))
 		printf("%s 7:[OK]", GREEN);
 	else
 		printf("%s 7:[KO]", RED);
 	/* -------------------- TEST 08 -------------------- */
-	if (cmp_output("aaa\0w", "\0x", 20))
-		printf("%s 8:[OK]", GREEN);
-	else
+	if (is_segfault(NULL, NULL, 0))
 		printf("%s 8:[KO]", RED);
+	else
+		printf("%s 8:[OK]", GREEN);
 	/* -------------------- TEST 09 -------------------- */
-	if (is_segfault(NULL, 0, 0))
+	if (is_segfault("a", NULL, 1))
 		printf("%s 9:[OK]", GREEN);
 	else
 		printf("%s 9:[KO]", RED);
 	/* -------------------- TEST 10 -------------------- */
-	if (cmp_output("aaa\0w", "w", 20))
+	if (is_segfault(NULL, "a", 1))
 		printf("%s 10:[OK]", GREEN);
 	else
 		printf("%s 10:[KO]", RED);

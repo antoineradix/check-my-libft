@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 22:37:54 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/22 23:17:09 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/28 15:08:27 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,17 @@
 
 static bool	is_segfault(char *s)
 {
-	struct sigaction	sa;
-	struct sigaction	old_sa;
-	bool				ret;
-
-	sa.sa_handler = segfault_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGSEGV, NULL, &old_sa);
-	sigaction(SIGSEGV, &sa, NULL);
-	if (setjmp(jump_buffer) == 0)
+	if (signal(SIGSEGV, signal_handler) == SIG_ERR)
+	{
+		fprintf(stderr, "Failed to set up signal handler\n");
+		exit(1);
+	}
+	if (sigsetjmp(env, 1) == 0)
 	{
 		ft_strlen(s);
-		ret = false;
+		return (0);
 	}
-	else
-		ret = true;
-	segfault_occurred = 0;
-	sigaction(SIGSEGV, &old_sa, NULL);
-	sigprocmask(SIG_SETMASK, &old_sa.sa_mask, NULL);
-	return (ret);
+	return (1);
 }
 
 static bool	cmp_output(char *s)

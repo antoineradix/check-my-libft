@@ -1,80 +1,90 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_ft_strchr.c                                   :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/16 15:24:00 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/16 18:15:14 by aradix           ###   ########.fr       */
+/*   Created: 2023/11/28 20:44:01 by aradix            #+#    #+#             */
+/*   Updated: 2023/11/28 21:06:28 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "check-my-libft.h"
 
-static bool	is_segfault(char *s, char c)
-{
-	struct sigaction	sa;
-	struct sigaction	old_sa;
-	bool				ret;
 
-	sa.sa_handler = segfault_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGSEGV, NULL, &old_sa);
-	sigaction(SIGSEGV, &sa, NULL);
-	if (setjmp(jump_buffer) == 0)
+static bool	is_segfault(char *s)
+{
+	char	*ret;
+
+	if (signal(SIGSEGV, signal_handler) == SIG_ERR)
 	{
-		ft_strchr(s, c);
-		ret = false;
+		fprintf(stderr, "Failed to set up signal handler\n");
+		exit(1);
 	}
-	else
-		ret = true;
-	segfault_occurred = 0;
-	sigaction(SIGSEGV, &old_sa, NULL);
-	sigprocmask(SIG_SETMASK, &old_sa.sa_mask, NULL);
-	return (ret);
+	if (sigsetjmp(env, 1) == 0)
+	{
+		ret = ft_strdup(s);
+		free(ret);
+		return (0);
+	}
+	return (1);
 }
 
-static bool	cmp_output(char *s, int c)
+static bool	cmp_output(char *s, size_t cmp_size)
 {
 	char	*ret;
 	char	*expected_ret;
+	size_t	mem_size;
+	size_t	expected_mem_size;
 
-	ret = ft_strchr(s, c);
-	expected_ret = strchr(s, c);
+	ret = ft_strdup(s);
+	expected_ret = strdup(s);
 	if (ret == NULL && expected_ret == NULL)
 		return (true);
-	if ((ret == NULL && expected_ret != NULL) || (ret != NULL
-			&& expected_ret == NULL))
+	if ((ret == NULL && expected_ret != NULL) || (ret != NULL && expected_ret == NULL))
 		return (false);
-	if (strcmp(ret, expected_ret) == 0)
+	mem_size = malloc_usable_size(ret);
+	expected_mem_size = malloc_usable_size(expected_ret);
+	if (mem_size == expected_mem_size && memcmp(ret, expected_ret, cmp_size) == 0)
+	{
+		free(ret);
+		free(expected_ret);
 		return (true);
+	}
+	free(ret);
+	free(expected_ret);
 	return (false);
 }
 
-void	test_ft_strchr(void)
+int	main(void)
 {
+	printf("ft_strdup:           ");
 	/* -------------------- TEST 01 -------------------- */
-	if (cmp_output("hello '\0' world !", 0))
+	if (cmp_output("Hello World !", 14))
 		printf("%s 1:[OK]", GREEN);
 	else
 		printf("%s 1:[KO]", RED);
 	/* -------------------- TEST 02 -------------------- */
-	if (cmp_output("hello world !", -223))
+	if (cmp_output("", 1))
 		printf("%s 2:[OK]", GREEN);
 	else
 		printf("%s 2:[KO]", RED);
 	/* -------------------- TEST 03 -------------------- */
-	if (cmp_output("he", 'x'))
+	if (cmp_output("\0\0\0\0", 1))
 		printf("%s 3:[OK]", GREEN);
 	else
 		printf("%s 3:[KO]", RED);
 	/* -------------------- TEST 04 -------------------- */
-	if (is_segfault(NULL, 0))
+	if (cmp_output("abcdefghIJKLMNopqrstuvwxyz12345678910%&!!!!!è§", 47))
 		printf("%s 4:[OK]", GREEN);
 	else
 		printf("%s 4:[KO]", RED);
+	/* -------------------- TEST 05 -------------------- */
+	if (is_segfault(NULL))
+		printf("%s 5:[OK]", GREEN);
+	else
+		printf("%s 5:[KO]", RED);
 	/* -------------------------------------------------- */
 	printf("\x1b[0m\n");
 }

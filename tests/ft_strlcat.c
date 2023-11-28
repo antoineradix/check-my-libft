@@ -6,34 +6,27 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 23:05:33 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/22 23:17:01 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/28 15:20:03 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "check-my-libft.h"
+#include <stdio.h>
+#include <strings.h>
 
 static bool	is_segfault(char *dest, char *src, size_t size)
 {
-	struct sigaction	sa;
-	struct sigaction	old_sa;
-	bool				ret;
-
-	sa.sa_handler = segfault_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGSEGV, NULL, &old_sa);
-	sigaction(SIGSEGV, &sa, NULL);
-	if (setjmp(jump_buffer) == 0)
+	if (signal(SIGSEGV, signal_handler) == SIG_ERR)
+	{
+		fprintf(stderr, "Failed to set up signal handler\n");
+		exit(1);
+	}
+	if (sigsetjmp(env, 1) == 0)
 	{
 		ft_strlcat(dest, src, size);
-		ret = false;
+		return (0);
 	}
-	else
-		ret = true;
-	segfault_occurred = 0;
-	sigaction(SIGSEGV, &old_sa, NULL);
-	sigprocmask(SIG_SETMASK, &old_sa.sa_mask, NULL);
-	return (ret);
+	return (1);
 }
 
 static bool	cmp_output(char *dest, char *expected_dest, char *src, size_t size,
@@ -49,28 +42,21 @@ static bool	cmp_output(char *dest, char *expected_dest, char *src, size_t size,
 	return (false);
 }
 
-int		main(void)
+int	main(void)
 {
-	char	*dest;
-	char	*expected_dest;
+	char	dest[55];
+	char	expected_dest[55];
 
 	printf("ft_strlcat:          ");
-	dest = (char *)malloc(sizeof(char) * 55);
-	expected_dest = (char *)malloc(sizeof(char) * 55);
-	if (dest == NULL || expected_dest == NULL)
-	{
-		free(dest);
-		free(expected_dest);
-		perror("Memory allocation error\n");
-		exit(EXIT_FAILURE);
-	}
+	bzero(dest, 55);
+	bzero(expected_dest, 55);
 	/* -------------------- TEST 01 -------------------- */
-	if (cmp_output(dest, expected_dest, "eoooooooo", 500, 10))
+	if (cmp_output(dest, expected_dest, "eoooooooo", 500, 55))
 		printf("%s 1:[OK]", GREEN);
 	else
 		printf("%s 1:[KO]", RED);
 	/* -------------------- TEST 02 -------------------- */
-	if (cmp_output(dest, expected_dest, "abcdefg42", 19, 20))
+	if (cmp_output(dest, expected_dest, "abcdefg42", 19, 55))
 		printf("%s 2:[OK]", GREEN);
 	else
 		printf("%s 2:[KO]", RED);
@@ -80,30 +66,30 @@ int		main(void)
 	dest[5] = '\0';
 	expected_dest[5] = '\0';
 	/* -------------------- TEST 03 -------------------- */
-	if (cmp_output(dest, expected_dest, "bbbbb", 10, 10))
+	if (cmp_output(dest, expected_dest, "bbbbb", 10, 55))
 		printf("%s 3:[OK]", GREEN);
 	else
 		printf("%s 3:[KO]", RED);
 	/* -------------------- TEST 04 -------------------- */
-	if (cmp_output(dest, expected_dest, "ccccccccc", 8, 8))
+	if (cmp_output(dest, expected_dest, "ccccccccc", 8, 55))
 		printf("%s 4:[OK]", GREEN);
 	else
 		printf("%s 4:[KO]", RED);
 	/* -------------------------------------------------- */
-	memset(dest, 0, 50);
-	memset(expected_dest, 0, 50);
+	bzero(dest, 55);
+	bzero(expected_dest, 55);
 	/* -------------------- TEST 05 -------------------- */
-	if (cmp_output(dest, expected_dest, "a", 1, 10))
+	if (cmp_output(dest, expected_dest, "a", 1, 55))
 		printf("%s 5:[OK]", GREEN);
 	else
 		printf("%s 5:[KO]", RED);
 	/* -------------------- TEST 06 -------------------- */
-	if (cmp_output(dest, expected_dest, "a", 2, 2))
+	if (cmp_output(dest, expected_dest, "a", 2, 55))
 		printf("%s 6:[OK]", GREEN);
 	else
 		printf("%s 6:[KO]", RED);
 	/* -------------------- TEST 07 -------------------- */
-	if (cmp_output(dest, expected_dest, "a", 0, 2))
+	if (cmp_output(dest, expected_dest, "a", 0, 55))
 		printf("%s 7:[OK]", GREEN);
 	else
 		printf("%s 7:[KO]", RED);
@@ -123,7 +109,5 @@ int		main(void)
 	else
 		printf("%s 10:[KO]", RED);
 	/* -------------------------------------------------- */
-	free(dest);
-	free(expected_dest);
 	printf("\x1b[0m\n");
 }

@@ -6,13 +6,13 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 23:07:37 by aradix            #+#    #+#             */
-/*   Updated: 2023/11/22 23:08:33 by aradix           ###   ########.fr       */
+/*   Updated: 2023/11/28 15:21:34 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "check-my-libft.h"
 
-int		main(void)
+int	main(void)
 {
 	int	c;
 
