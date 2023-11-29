@@ -43,6 +43,8 @@ PART1		=	ft_isalpha		\
 # targets for part2
 PART2		=	ft_substr		\
 				ft_strjoin		\
+				ft_strtrim		\
+				ft_split		\
 
 # targets for bonus
 BONUS		=	ft_uiii			\
@@ -78,7 +80,14 @@ bonus: libft
 libft:
 	@$(LIBFT_MAKE) > /dev/null
 
+libft_clean:
+	@$(LIBFT_MAKE) clean > /dev/null
+
+libft_fclean:
+	@$(LIBFT_MAKE) fclean > /dev/null
+
 libft_re:
 	@$(LIBFT_MAKE) re > /dev/null
+
 
 re: libft_re all
