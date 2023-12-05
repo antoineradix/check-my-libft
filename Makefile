@@ -3,7 +3,7 @@ LIBFT_PATH	=	../school-projects/libft
 
 # compiler and flags
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-g3 -Wall -Wextra -Werror
 LDFLAGS		=	-L$(LIBFT_PATH) -lft
 LBSDFLAGS	=	-lbsd
 
@@ -45,7 +45,9 @@ PART2		=	ft_substr		\
 				ft_strjoin		\
 				ft_strtrim		\
 				ft_split		\
-
+				ft_itoa			\
+				ft_strmapi		\
+*
 # targets for bonus
 BONUS		=	ft_uiii			\
 

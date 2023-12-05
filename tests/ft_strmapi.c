@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/29 19:31:29 by aradix            #+#    #+#             */
-/*   Updated: 2023/12/05 09:21:47 by aradix           ###   ########.fr       */
+/*   Created: 2023/12/05 18:12:52 by aradix            #+#    #+#             */
+/*   Updated: 2023/12/05 22:05:36 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ static bool	is_segfault(char *s, char c)
 	/* MEMORY LEAKS */
 }
 
-static bool	cmp_output(char *s, char c, char **expected_ret)
+static bool	cmp_output(char *s, char (*f)(unsigned int, char), char *expected_ret)
 {
-	char	**ret;
+	char	*ret;
 	size_t	len;
 	size_t	expected_len;
 
@@ -61,44 +61,13 @@ static bool	cmp_output(char *s, char c, char **expected_ret)
 
 int	main(void)
 {
-	printf("ft_split:            ");
+	printf("ft_strmapi:           ");
 	/* -------------------- TEST 01 -------------------- */
-	if (cmp_output("Hello", 'X', (char *[]){"Hello", NULL}))
+	if (cmp_output("Hello World !")
 		printf("%s 1:[OK]", GREEN);
 	else
 		printf("%s 1:[KO]", RED);
-	/* -------------------- TEST 02 -------------------- */
-	if (cmp_output("HelloXWorld", 'X', (char *[]){"Hello", "World", NULL}))
-		printf("%s 2:[OK]", GREEN);
-	else
-		printf("%s 2:[KO]", RED);
-	/* -------------------- TEST 03 -------------------- */
-	if (cmp_output("XHXelloXWorldX!X", 'X', (char *[]){"H", "ello", "World",
-			"!", NULL}))
-		printf("%s 3:[OK]", GREEN);
-	else
-		printf("%s 3:[KO]", RED);
-	/* -------------------- TEST 04 -------------------- */
-	if (cmp_output("HXXXXXXelloXXXXXWorldXXXX!XXXXX", 'X', (char *[]){"H",
-			"ello", "World", "!", NULL}))
-		printf("%s 4:[OK]", GREEN);
-	else
-		printf("%s 4:[KO]", RED);
-	/* -------------------- TEST 05 -------------------- */
-	if (cmp_output("XXXXXXXXXXXXXXXXX", 'X', (char *[]){NULL}))
-		printf("%s 5:[OK]", GREEN);
-	else
-		printf("%s 5:[KO]", RED);
-	/* -------------------- TEST 06 -------------------- */
-	if (cmp_output("", 'X', (char *[]){NULL}))
-		printf("%s 6:[OK]", GREEN);
-	else
-		printf("%s 6:[KO]", RED);
-	/* -------------------- TEST 07 -------------------- */
-	if (is_segfault(NULL, 'e'))
-		printf("%s 7:[💥]", GREEN);
-	else
-		printf("%s 7:[🛡️ ]", GREEN);
 	/* -------------------------------------------------- */
 	printf("\x1b[0m\n");
 }
+
