@@ -47,6 +47,7 @@ PART2		=	ft_substr		\
 				ft_split		\
 				ft_itoa			\
 				ft_strmapi		\
+				ft_striteri		\
 *
 # targets for bonus
 BONUS		=	ft_uiii			\

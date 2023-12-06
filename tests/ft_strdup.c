@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 20:44:01 by aradix            #+#    #+#             */
-/*   Updated: 2023/12/05 12:10:39 by aradix           ###   ########.fr       */
+/*   Updated: 2023/12/06 09:59:59 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,11 @@ static bool	cmp_output(char *s, size_t cmp_size)
 	expected_ret = strdup(s);
 	if (ret == NULL && expected_ret == NULL)
 		return (true);
-	if ((ret == NULL && expected_ret != NULL) || (ret != NULL
-			&& expected_ret == NULL))
+	if ((ret == NULL && expected_ret != NULL) || (ret != NULL && expected_ret == NULL))
 		return (false);
 	mem_size = malloc_usable_size(ret);
 	expected_mem_size = malloc_usable_size(expected_ret);
-	if (mem_size == expected_mem_size && memcmp(ret, expected_ret,
-			cmp_size) == 0)
+	if (mem_size == expected_mem_size && memcmp(ret, expected_ret, cmp_size) == 0)
 	{
 		free(ret);
 		free(expected_ret);
