@@ -49,6 +49,8 @@ PART2		=	ft_substr		\
 				ft_strmapi		\
 				ft_striteri		\
 				ft_putchar_fd	\
+				ft_putstr_fd	\
+				ft_putendl_fd	\
 *
 # targets for bonus
 BONUS		=	ft_uiii			\
