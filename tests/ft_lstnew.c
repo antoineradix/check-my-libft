@@ -1,52 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/06 13:50:08 by aradix            #+#    #+#             */
-/*   Updated: 2023/12/06 17:06:09 by aradix           ###   ########.fr       */
+/*   Created: 2023/12/06 17:04:04 by aradix            #+#    #+#             */
+/*   Updated: 2023/12/06 17:17:02 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "check-my-libft.h"
 
-static bool	cmp_output(char *s)
+static bool	cmp_output(int n)
 {
-	int		fd;
-	char	buff[100];
-	size_t	size;
+	t_list	*head;
 
-	fd = open("tmp", O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
-	if (fd == -1)
-	{
-		perror("Error opening file");
-		return (false);
-	}
-	ft_putstr_fd(s, fd);
-	lseek(fd, 0, SEEK_SET);
-	size = read(fd, buff, 98);
-	close(fd);
-	buff[size] = '\0';
-	if (strcmp(buff, s) == 0)
-		return (true);
+	head = ft_lstnew(&n);
+	if ((*(int *)(head->content)) == n)
+		{
+			free(head);
+			return (true);
+		}
+	free(head);
 	return (false);
 }
 
 int	main(void)
 {
-	printf("ft_putstr_fd:        ");
+	printf("ft_lstnew:           ");
 	/* -------------------- TEST 01 -------------------- */
-	if (cmp_output("a"))
+	if (cmp_output(42))
 		printf("%s 1:[OK]", GREEN);
 	else
 		printf("%s 1:[KO]", RED);
-	/* -------------------- TEST 02 -------------------- */
-	if (cmp_output("weofihweoifhewoifnioen	w	e65f465 t4g 6w4tw6546r6  a"))
-		printf("%s 2:[OK]", GREEN);
-	else
-		printf("%s 2:[KO]", RED);
 	/* -------------------------------------------------- */
 	printf("\x1b[0m\n");
 }

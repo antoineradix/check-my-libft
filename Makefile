@@ -9,7 +9,7 @@ LBSDFLAGS	=	-lbsd
 
 # libft 
 LIBFT		=	$(LIBFT_PATH)/libft.a
-LIBFT_MAKE	=	$(MAKE) -C $(LIBFT_PATH)
+LIBFT_MAKE	=	make -C $(LIBFT_PATH)
 
 # directories
 HEADERS		=	headers
@@ -52,9 +52,9 @@ PART2		=	ft_substr		\
 				ft_putstr_fd	\
 				ft_putendl_fd	\
 				ft_putnbr_fd	\
-*
+
 # targets for bonuvoid ft_putnbr_fd(int n, int fd);s
-BONUS		=	ft_uiii			\
+BONUS		=	ft_lstnew		\
 
 # function to dynamically test specified functions from the libft
 define test_func
@@ -78,7 +78,7 @@ part1: libft
 part2: libft
 	@$(call test_func, $(PART2))
 
-bonus: libft
+bonus: libft_bonus
 	@$(call test_func, $(BONUS))
 
 %: libft
@@ -86,6 +86,9 @@ bonus: libft
 
 libft:
 	@$(LIBFT_MAKE) > /dev/null
+
+libft_bonus:
+	@$(LIBFT_MAKE) bonus > /dev/null
 
 libft_clean:
 	@$(LIBFT_MAKE) clean > /dev/null
@@ -95,6 +98,5 @@ libft_fclean:
 
 libft_re:
 	@$(LIBFT_MAKE) re > /dev/null
-
 
 re: libft_re all
