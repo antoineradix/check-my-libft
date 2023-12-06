@@ -51,8 +51,9 @@ PART2		=	ft_substr		\
 				ft_putchar_fd	\
 				ft_putstr_fd	\
 				ft_putendl_fd	\
+				ft_putnbr_fd	\
 *
-# targets for bonus
+# targets for bonuvoid ft_putnbr_fd(int n, int fd);s
 BONUS		=	ft_uiii			\
 
 # function to dynamically test specified functions from the libft
