@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:11:56 by aradix            #+#    #+#             */
-/*   Updated: 2023/12/06 14:14:48 by aradix           ###   ########.fr       */
+/*   Updated: 2023/12/06 14:42:29 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static bool	cmp_output(char *s)
 	ft_putendl_fd(s, fd);
 	lseek(fd, 0, SEEK_SET);
 	size = read(fd, buff, 98);
+	close(fd);
 	buff[size] = '\0';
 	if ((strncmp(buff, s, size - 1) == 0) && buff[size - 1] == '\n')
 		return (true);
