@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 13:35:38 by aradix            #+#    #+#             */
-/*   Updated: 2023/12/07 13:41:06 by aradix           ###   ########.fr       */
+/*   Updated: 2023/12/07 15:44:13 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,12 @@ static bool	cmp_output(void)
 	head = ft_lstnew(&a);
 	ft_lstadd_front(&head, ft_lstnew(&b));
 	if (ft_lstsize(head) == 2)
+	{
+		free_lst(&head);
 		return (true);
+	}
+	free_lst(&head);
 	return (false);
-	/* MEMORY LEAKS */
 }
 
 int	main(void)

@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 12:46:00 by aradix            #+#    #+#             */
-/*   Updated: 2023/12/06 17:08:38 by aradix           ###   ########.fr       */
+/*   Updated: 2023/12/07 15:34:56 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@
 extern sigjmp_buf	env;
 
 void				signal_handler(int signo);
+void				free_lst(t_list **list);
 
 #endif

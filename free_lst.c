@@ -1,39 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   free_lst.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/06 17:04:04 by aradix            #+#    #+#             */
-/*   Updated: 2023/12/07 19:15:11 by aradix           ###   ########.fr       */
+/*   Created: 2023/12/07 15:15:22 by aradix            #+#    #+#             */
+/*   Updated: 2023/12/07 15:36:33 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "check-my-libft.h"
 
-static bool	cmp_output(int n)
+void	free_lst(t_list **list)
 {
-	t_list	*head;
+	t_list	*ptr;
 
-	head = ft_lstnew(&n);
-	if ((*(int *)(head->content)) == n)
+	while (*list != NULL)
 	{
-		free(head);
-		return (true);
+		ptr = (*list)->next;
+		free(*list);
+		*list = ptr;
 	}
-	free(head);
-	return (false);
-}
-
-int	main(void)
-{
-	printf("ft_lstnew:           ");
-	/* -------------------- TEST 01 -------------------- */
-	if (cmp_output(42))
-		printf("%s 1:[OK]", GREEN);
-	else
-		printf("%s 1:[KO]", RED);
-	/* -------------------------------------------------- */
-	printf("\x1b[0m\n");
+	*list = NULL;
 }

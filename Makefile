@@ -3,7 +3,7 @@ LIBFT_PATH	=	../school-projects/libft
 
 # compiler and flags
 CC			=	gcc
-CFLAGS		=	-g3 -Wall -Wextra -Werror
+CFLAGS		=	-g -Wall -Wextra -Werror
 LDFLAGS		=	-L$(LIBFT_PATH) -lft
 LBSDFLAGS	=	-lbsd
 
@@ -59,18 +59,21 @@ BONUS		=	ft_lstnew		\
 				ft_lstsize		\
 				ft_lstlast		\
 				ft_lstadd_back	\
+				ft_lstdelone	\
+				ft_lstclear		\
 
 # function to dynamically test specified functions from the libft
 define test_func
 	@for func in $(1); do \
 		if nm -g -o $(LIBFT) | grep -q $$func; then \
 			$(CC) $(CFLAGS) -I$(LIBFT_PATH) -I$(HEADERS) -o test_$$func \
-			$(TESTS)/$$func.c signal_handler.c $(LDFLAGS) $(LBSDFLAGS); \
+			$(TESTS)/$$func.c signal_handler.c free_lst.c $(LDFLAGS) $(LBSDFLAGS); \
 			./test_$$func; \
 			rm -f test_$$func; \
 		fi \
 	done
 endef
+
 
 .PHONY: all part1 part2 bonus libft libft_re re
 

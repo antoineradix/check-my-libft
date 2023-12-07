@@ -6,7 +6,7 @@
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 13:44:04 by aradix            #+#    #+#             */
-/*   Updated: 2023/12/07 13:53:32 by aradix           ###   ########.fr       */
+/*   Updated: 2023/12/07 15:45:49 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static bool	cmp_output(void)
 {
+	t_list	*ptr;
 	t_list	*head;
 	int		a;
 	int		b;
@@ -22,11 +23,15 @@ static bool	cmp_output(void)
 	b = 1;
 	head = ft_lstnew(&a);
 	ft_lstadd_front(&head, ft_lstnew(&b));
+	ptr = head;
 	head = ft_lstlast(head);
 	if ((*(int *)(head->content)) == a)
+	{
+		free_lst(&ptr);
 		return (true);
+	}
+	free_lst(&head);
 	return (false);
-	/* MEMORY LEAKS */
 }
 
 int	main(void)
