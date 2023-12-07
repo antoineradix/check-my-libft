@@ -1,36 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   ft_lstlast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aradix <aradix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/06 17:04:04 by aradix            #+#    #+#             */
-/*   Updated: 2023/12/07 13:31:32 by aradix           ###   ########.fr       */
+/*   Created: 2023/12/07 13:44:04 by aradix            #+#    #+#             */
+/*   Updated: 2023/12/07 13:53:32 by aradix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "check-my-libft.h"
 
-static bool	cmp_output(int n)
+static bool	cmp_output(void)
 {
 	t_list	*head;
+	int		a;
+	int		b;
 
-	head = ft_lstnew(&n);
-	if ((*(int *)(head->content)) == n)
-		{
-			free(head);
-			return (true);
-		}
-	free(head);
+	a = 2;
+	b = 1;
+	head = ft_lstnew(&a);
+	ft_lstadd_front(&head, ft_lstnew(&b));
+	head = ft_lstlast(head);
+	if ((*(int *)(head->content)) == a)
+		return (true);
 	return (false);
+	/* MEMORY LEAKS */
 }
 
 int	main(void)
 {
-	printf("ft_lstnew:           ");
+	printf("ft_lstlast:          ");
 	/* -------------------- TEST 01 -------------------- */
-	if (cmp_output(42))
+	if (cmp_output())
 		printf("%s 1:[OK]", GREEN);
 	else
 		printf("%s 1:[KO]", RED);

@@ -55,6 +55,10 @@ PART2		=	ft_substr		\
 
 # targets for bonuvoid ft_putnbr_fd(int n, int fd);s
 BONUS		=	ft_lstnew		\
+				ft_lstadd_front	\
+				ft_lstsize		\
+				ft_lstlast		\
+				ft_lstadd_back	\
 
 # function to dynamically test specified functions from the libft
 define test_func
